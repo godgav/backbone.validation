@@ -51,9 +51,10 @@ Backbone.Validation = (function(_){
   //       'address.street': 'Street',
   //       'address.zip': 1234
   //     };
-  var flatten = function (obj, into, prefix) {
+  var flatten = function (obj, into, prefix, orig) {
     into = into || {};
     prefix = prefix || '';
+    orig = orig || obj;
 
     _.each(obj, function(val, key) {
       if(obj.hasOwnProperty(key)) {
@@ -64,9 +65,9 @@ Backbone.Validation = (function(_){
           val instanceof Backbone.Model ||
           val instanceof Backbone.Collection)
         ) {
-          flatten(val, into, prefix + key + '.');
+          flatten(val, into, prefix + key + '.', orig);
         }
-        else {
+        else if (orig === obj || typeof orig[prefix + key] == "undefined") {
           into[prefix + key] = val;
         }
       }

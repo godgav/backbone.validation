@@ -324,16 +324,7 @@ buster.testCase('Nested validation', {
         assert.calledWith(this.invalid, this.view, 'foo.bar.baz', 'error');
         assert.calledWith(this.invalid, this.view, 'foo.foo', 'error');
       },
-  
-      "is valid returns false for the specified attribute name": function () {
-        refute(this.model.isValid('foo.bar.baz'));
-        refute(this.model.isValid('foo.foo'));
-      },
-  
-      "is valid returns false for the specified attribute names": function () {
-        refute(this.model.isValid(['foo.foo', 'foo.bar.baz']));
-      },
-  
+    
       "pre validate returns error message for the specified attribute name": function () {
         assert(this.model.preValidate('foo.bar.baz', ''));
         assert(this.model.preValidate('foo.foo', ''));
