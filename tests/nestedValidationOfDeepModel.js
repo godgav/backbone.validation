@@ -290,7 +290,15 @@ buster.testCase('Nested validation', {
         }
       });
   
-      this.model = new Model();
+      this.model = new Model({
+          foo: {
+            foo: 'foo',
+            bar: {
+              baz: 'bar.baz',
+              bob: 'bar.bob'
+            }
+          }
+        });
       this.view = new Backbone.View({model: this.model});
       
       Backbone.Validation.bind(this.view, {
@@ -301,15 +309,6 @@ buster.testCase('Nested validation', {
 
     "invalid": {
       setUp: function () {
-        this.model.set({
-          foo: {
-            foo: 'foo',
-            bar: {
-              baz: 'bar.baz',
-              bob: 'bar.bob'
-            }
-          }
-        });
         this.result = this.model.set({
           'foo.foo': '',
           'foo.bar.baz': ''
@@ -345,6 +344,18 @@ buster.testCase('Nested validation', {
   
       "sets the value": function() {
         assert(this.result);
+      },
+
+      "correctly update model": function() {
+        assert.equals(this.result.toJSON(), {
+          foo: {
+            foo: 'val',
+            bar: {
+              baz: 'val',
+              bob: 'bar.bob'
+            }
+          }
+        });
       },
   
       "calls the valid callback": function() {
